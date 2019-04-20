@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         <parent>
+             <groupId>org.flabs.micro</groupId>
+             <artifactId>fast-micro-root</artifactId>
+             <version>1.0-SNAPSHOT</version>
+             <relativePath>../fast-micro-pom/pom.xml</relativePath>
+         </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>fast-micro-service</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.flabs.micro</groupId>
+            <artifactId>fast-micro-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- this is a service provider jar to be included from command line-->
+        <dependency>
+            <groupId>org.flabs.micro</groupId>
+            <artifactId>fast-micro-service-refdata</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-hazelcast</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+
+        <!--   <dependency>
+               <groupId>io.vertx</groupId>
+               <artifactId>vertx-web</artifactId>
+               <version>3.6.3</version>
+               <classifier>client</classifier>
+               <type>js</type>
+           </dependency>-->
+    </dependencies>
+
+
+
+
+
+</project>

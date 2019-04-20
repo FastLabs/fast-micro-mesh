@@ -1,0 +1,6 @@
+^{:watch-dirs [ "src/main/cljs"]
+  :css-dirs ["src/main/resources/public/css"]
+  :auto-testing true}
+  
+
+{:main user-shell.core}

@@ -1,0 +1,41 @@
+package org.flabs.common.service;
+
+import com.google.gson.reflect.TypeToken;
+import io.reactivex.Single;
+import io.vertx.core.eventbus.DeliveryOptions;
+import io.vertx.reactivex.core.eventbus.EventBus;
+import io.vertx.reactivex.core.eventbus.Message;
+import org.flabs.common.model.DataEntity;
+
+import java.util.List;
+
+public abstract class AbstractDataService {
+    protected EventBus eventBus;
+
+    public AbstractDataService(EventBus eventBus) {
+        this.eventBus = eventBus;
+    }
+
+    private DeliveryOptions deliveryOptions(TypeToken t) {
+        return new DeliveryOptions().setCodecName(t.getType().getTypeName());
+    }
+
+    protected <T> Single<T> getEntity(String address) {
+        return eventBus.<T>rxSend(address, null)
+                .map(Message::body);
+    }
+
+    protected <Q extends DataEntity, R> Single<R> queryEntity(String address, Q query) {
+        return eventBus.<R>rxSend(address, query, deliveryOptions(query.getTypeToken())).map(Message::body);
+    }
+
+    protected <T extends DataEntity> Single<List<T>> getList(String address) {
+        return eventBus.<List<T>>rxSend(address, null).map(Message::body);
+    }
+
+    protected <Q extends DataEntity, R> Single<List<R>> queryList(String address, Q query) {
+        return eventBus.<List<R>>rxSend(address, query, deliveryOptions(query.getTypeToken())).map(Message::body);
+    }
+
+
+}

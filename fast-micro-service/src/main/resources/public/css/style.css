@@ -1,0 +1,14 @@
+html, body, .app-view-panel {
+    height: 100%;
+    margin: 0;
+}
+
+.app-iframe {
+    height: 100%;
+    width: 100%;
+    border: none;
+}
+
+section.view {
+    margin-left: 60px;
+}
