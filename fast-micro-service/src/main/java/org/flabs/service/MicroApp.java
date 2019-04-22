@@ -12,6 +12,7 @@ import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
 import org.flabs.common.service.DiscoServiceFactory;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 public abstract class MicroApp {
@@ -19,6 +20,7 @@ public abstract class MicroApp {
     protected String profileName;
     //TODO: check if i need to expose this, usually is required for monitor services such as ClusterMembers
     protected HazelcastClusterManager clusterManager;
+    private ServiceDiscovery serviceDiscovery;
 
     public MicroApp(String profileName) {
         this.profileName = profileName;
@@ -36,19 +38,21 @@ public abstract class MicroApp {
     private void shutDownHook(Vertx vertx) {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Shutting down the system");
-            //TODO: check if this is blocking, if not it may be the case that the logs will never be displayed
-            vertx.rxClose()
-                    .subscribe(() -> {
-                        System.out.println("Vertx stopped successfully");
-                    }, err -> {
-                        System.out.println("Error exiting vertx gracefully: " + err);
-                    });
+            //clusterManager.leave(); TODO: not sure if this is mandatory
+            serviceDiscovery.close();
+            boolean closeResult = vertx.rxClose().blockingAwait(3, TimeUnit.SECONDS);
+            if (closeResult) {
+                System.out.println("Service stopped normally");
+            } else {
+                System.out.println("Unable to stop in 3 s");
+            }
+
         }));
     }
 
     protected Single<Vertx> getVertx() {
         var hazelcastConfig = ConfigUtil.loadConfig();
-        hazelcastConfig.setInstanceName("fast-labs-" + hazelcastConfig.getGroupConfig().getName()+ "-" + this.profileName);
+        hazelcastConfig.setInstanceName("fast-labs-" + hazelcastConfig.getGroupConfig().getName() + "-" + this.profileName);
         clusterManager = new HazelcastClusterManager(hazelcastConfig);
         return Vertx.rxClusteredVertx(new VertxOptions()
                 .setClusterManager(clusterManager)
@@ -61,11 +65,11 @@ public abstract class MicroApp {
 
 
     protected String start(Vertx vertx) {
-        var serviceDiscovery = ServiceDiscovery.create(vertx, new ServiceDiscoveryOptions()
+        serviceDiscovery = ServiceDiscovery.create(vertx, new ServiceDiscoveryOptions()
                 .setName(profileName));
 
         vertx.registerVerticleFactory(new DiscoServiceFactory(serviceDiscovery));
-
+        init(vertx);
         Observable.fromIterable(getModuleFactories())
 
                 .flatMap(factory -> factory.apply(vertx))
@@ -79,5 +83,7 @@ public abstract class MicroApp {
                         });
         return "Server started";
     }
+
+    protected abstract void init(Vertx vertx);
 
 }

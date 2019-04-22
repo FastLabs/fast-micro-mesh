@@ -4,6 +4,7 @@ import io.reactivex.Observable;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.Vertx;
+import org.flabs.refdata.RefDataCodec;
 import org.flabs.service.MicroApp;
 import org.flabs.service.cluster.ClusterMembers;
 import org.flabs.web.WebVerticle;
@@ -85,15 +86,30 @@ public class Main extends MicroApp {
                 break;
             case "ref-data-service":
                 moduleFactories.add(this::deployReferenceDataService);
-                moduleFactories.add(this::deployWeb);
                 break;
             case "ref-data-consumer":
-                //moduleFactories.add(this::deployReferenceDataConsumer);
+                moduleFactories.add(this::deployWeb);
                 break;
             default:
                 System.out.print("Unknown profile selected");
         }
         return moduleFactories;
+    }
+
+    @Override
+    protected void init(Vertx vertx) {
+        //TODO: make this configurable
+        System.out.println("Listening for service events");
+        vertx.eventBus().consumer("vertx.discovery.announce")
+                .toObservable()
+                .subscribe(xx -> {
+                    System.out.println("Discovery event: " + xx.body());
+                });
+
+        System.out.println("Initializes codecs");
+        vertx.eventBus().registerCodec(RefDataCodec.CURRENCY_CODEC)
+                .registerCodec(RefDataCodec.CURRENCY_PAIR_CODEC)
+                .registerCodec(RefDataCodec.LIST_CURRENCY_PAIR_CODEC);
     }
 
 

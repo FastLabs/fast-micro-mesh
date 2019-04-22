@@ -2,7 +2,6 @@ package org.flabs.refdata.currency.service;
 
 import io.reactivex.Completable;
 import io.vertx.core.eventbus.DeliveryOptions;
-import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.servicediscovery.Record;
 import org.flabs.common.service.AbstractServiceVerticle;
 import org.flabs.refdata.RefDataCodec;
@@ -15,12 +14,14 @@ public class ReferenceDataVerticle extends AbstractServiceVerticle {
 
 
     @Override
+    public Completable rxStop() {
+        return unregisterService();
+    }
+
+    @Override
     public Completable rxStart() {
         final Record serviceRecord = CurrencyReferenceDataService.createRecord();
         var eventBus = vertx.eventBus();
-        eventBus.registerCodec(RefDataCodec.CURRENCY_CODEC)
-                .registerCodec(RefDataCodec.CURRENCY_PAIR_CODEC)
-                .registerCodec(RefDataCodec.LIST_CURRENCY_PAIR_CODEC);
 
         eventBus.consumer("currency-pair")
                 .toObservable()
@@ -41,14 +42,15 @@ public class ReferenceDataVerticle extends AbstractServiceVerticle {
         eventBus.consumer("ref-data.currency-pair")
                 .toObservable()
                 .subscribe(msg -> {
+                            System.out.println("Extracting currency pairs");
                             final List<CurrencyPair> result = new ArrayList<>();
                             result.add(new CurrencyPair("USD", "EUR"));
                             msg.reply(result, new DeliveryOptions().setCodecName(RefDataCodec.LIST_CURRENCY_PAIR_CODEC.name()));
                         }
-                        , err -> {
-                        });
+                        , System.err::println);
 
 
-        return registerService(serviceRecord).ignoreElement();
+        return registerService(serviceRecord)
+                .ignoreElement();
     }
 }
