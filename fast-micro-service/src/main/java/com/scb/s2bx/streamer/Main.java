@@ -39,7 +39,7 @@ public class Main extends MicroApp {
     }
 
     Observable<String> deployWeb(Vertx vertx) {
-        return vertx.rxDeployVerticle("service:WebVerticle",
+        return vertx.rxDeployVerticle("service:com.scb.s2bx.web.WebVerticle",
                 new DeploymentOptions()
                         .setConfig(new JsonObject()
                                 .put("http.port", this.httpPort)))
@@ -47,7 +47,7 @@ public class Main extends MicroApp {
     }
 
     Observable<String> deployTestStreaming(Vertx vertx) {
-        return vertx.rxDeployVerticle("StreamingVerticle",
+        return vertx.rxDeployVerticle("com.scb.s2bx.service.example.StreamingVerticle",
                 new DeploymentOptions()
                         .setHa(true)).toObservable();
     }
@@ -57,15 +57,15 @@ public class Main extends MicroApp {
     }
 
     Observable<String> deployProducer(Vertx vertx) {
-        return vertx.rxDeployVerticle("service:Producer", new DeploymentOptions().setHa(true)).toObservable();
+        return vertx.rxDeployVerticle("service:com.scb.s2bx.service.example.Producer", new DeploymentOptions().setHa(true)).toObservable();
     }
 
     Observable<String> deployConsumer(Vertx vertx) {
-        return vertx.rxDeployVerticle("service:Consumer", new DeploymentOptions().setHa(true)).toObservable();
+        return vertx.rxDeployVerticle("service:com.scb.s2bx.service.example.Consumer", new DeploymentOptions().setHa(true)).toObservable();
     }
 
     Observable<String> deployReferenceDataService(Vertx vertx) {
-        return vertx.rxDeployVerticle("service:ReferenceDataVerticle", new DeploymentOptions().setHa(true)).toObservable();
+        return vertx.rxDeployVerticle("service:service:com.scb.s2bx.refdata.currency.service.ReferenceDataVerticle", new DeploymentOptions().setHa(true)).toObservable();
     }
 
 

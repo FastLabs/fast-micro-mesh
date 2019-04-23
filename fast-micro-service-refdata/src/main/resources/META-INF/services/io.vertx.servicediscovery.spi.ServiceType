@@ -1,1 +1,1 @@
-org.flabs.refdata.currency.service.CurrencyReferenceDataServiceImpl
+com.scb.s2bx.refdata.currency.service.CurrencyReferenceDataServiceImpl
