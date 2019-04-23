@@ -1,4 +1,4 @@
-package org.flabs.refdata.currency.model;
+package com.scb.s2bx.refdata.currency.model;
 
 
 import com.google.gson.Gson;

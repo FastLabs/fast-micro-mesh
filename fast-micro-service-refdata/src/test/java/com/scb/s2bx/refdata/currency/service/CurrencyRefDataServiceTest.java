@@ -1,16 +1,12 @@
-package org.flabs.refdata.currency.service;
+package com.scb.s2bx.refdata.currency.service;
 
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.junit5.VertxExtension;
 import io.vertx.junit5.VertxTestContext;
 import io.vertx.reactivex.core.Vertx;
-import io.vertx.reactivex.core.eventbus.EventBus;
-import io.vertx.rxjava.ext.unit.TestContext;
-import org.flabs.refdata.RefDataCodec;
-import org.flabs.refdata.currency.model.Currency;
-import org.flabs.refdata.currency.model.CurrencyPair;
-import org.flabs.refdata.currency.service.CurrencyReferenceDataServiceImpl;
-import org.junit.jupiter.api.Assertions;
+import com.scb.s2bx.refdata.RefDataCodec;
+import com.scb.s2bx.refdata.currency.model.Currency;
+import com.scb.s2bx.refdata.currency.model.CurrencyPair;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 

@@ -1,4 +1,4 @@
-package org.flabs.common.model;
+package com.scb.s2bx.common.model;
 
 import com.google.gson.reflect.TypeToken;
 

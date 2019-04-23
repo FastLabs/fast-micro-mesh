@@ -1,11 +1,11 @@
-package org.flabs.service.example;
+package com.scb.s2bx.service.example;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.vertx.servicediscovery.Record;
 import io.vertx.servicediscovery.types.MessageSource;
-import org.flabs.common.service.AbstractServiceVerticle;
+import com.scb.s2bx.common.service.AbstractServiceVerticle;
 
 public class Producer extends AbstractServiceVerticle {
     private static final String ENDPOINT_ADDRESS = "simpleMessage";

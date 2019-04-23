@@ -1,10 +1,10 @@
-package org.flabs.service.cluster;
+package com.scb.s2bx.service.cluster;
 
 import io.reactivex.Completable;
 import io.vertx.core.json.JsonObject;
 import io.vertx.core.spi.cluster.NodeListener;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
-import org.flabs.common.service.AbstractServiceVerticle;
+import com.scb.s2bx.common.service.AbstractServiceVerticle;
 
 public class ClusterMembers extends AbstractServiceVerticle {
     private final HazelcastClusterManager clusterManager;

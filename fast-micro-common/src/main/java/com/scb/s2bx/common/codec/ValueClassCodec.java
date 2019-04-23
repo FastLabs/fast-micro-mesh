@@ -1,4 +1,4 @@
-package org.flabs.common.codec;
+package com.scb.s2bx.common.codec;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

@@ -1,13 +1,12 @@
-package org.flabs.streamer;
+package com.scb.s2bx.streamer;
 
 import io.reactivex.Observable;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.Vertx;
-import org.flabs.refdata.RefDataCodec;
-import org.flabs.service.MicroApp;
-import org.flabs.service.cluster.ClusterMembers;
-import org.flabs.web.WebVerticle;
+import com.scb.s2bx.refdata.RefDataCodec;
+import com.scb.s2bx.service.MicroApp;
+import com.scb.s2bx.service.cluster.ClusterMembers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,7 @@ public class Main extends MicroApp {
     }
 
     Observable<String> deployWeb(Vertx vertx) {
-        return vertx.rxDeployVerticle("service:org.flabs.web.WebVerticle",
+        return vertx.rxDeployVerticle("service:WebVerticle",
                 new DeploymentOptions()
                         .setConfig(new JsonObject()
                                 .put("http.port", this.httpPort)))
@@ -48,7 +47,7 @@ public class Main extends MicroApp {
     }
 
     Observable<String> deployTestStreaming(Vertx vertx) {
-        return vertx.rxDeployVerticle("org.flabs.service.example.StreamingVerticle",
+        return vertx.rxDeployVerticle("StreamingVerticle",
                 new DeploymentOptions()
                         .setHa(true)).toObservable();
     }
@@ -58,15 +57,15 @@ public class Main extends MicroApp {
     }
 
     Observable<String> deployProducer(Vertx vertx) {
-        return vertx.rxDeployVerticle("service:org.flabs.service.example.Producer", new DeploymentOptions().setHa(true)).toObservable();
+        return vertx.rxDeployVerticle("service:Producer", new DeploymentOptions().setHa(true)).toObservable();
     }
 
     Observable<String> deployConsumer(Vertx vertx) {
-        return vertx.rxDeployVerticle("service:org.flabs.service.example.Consumer", new DeploymentOptions().setHa(true)).toObservable();
+        return vertx.rxDeployVerticle("service:Consumer", new DeploymentOptions().setHa(true)).toObservable();
     }
 
     Observable<String> deployReferenceDataService(Vertx vertx) {
-        return vertx.rxDeployVerticle("service:org.flabs.refdata.currency.service.ReferenceDataVerticle", new DeploymentOptions().setHa(true)).toObservable();
+        return vertx.rxDeployVerticle("service:ReferenceDataVerticle", new DeploymentOptions().setHa(true)).toObservable();
     }
 
 

@@ -1,10 +1,10 @@
-package org.flabs.service.cluster.impl;
+package com.scb.s2bx.service.cluster.impl;
 
 import com.hazelcast.core.Member;
 import io.reactivex.Single;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
-import org.flabs.service.cluster.ClusterAwareService;
-import org.flabs.service.cluster.ClusterMember;
+import com.scb.s2bx.service.cluster.ClusterAwareService;
+import com.scb.s2bx.service.cluster.ClusterMember;
 
 import java.util.List;
 import java.util.stream.Collectors;

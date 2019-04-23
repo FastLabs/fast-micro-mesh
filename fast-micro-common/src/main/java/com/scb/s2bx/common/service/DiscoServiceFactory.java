@@ -1,10 +1,9 @@
-package org.flabs.common.service;
+package com.scb.s2bx.common.service;
 
 import io.vertx.core.Verticle;
 import io.vertx.core.impl.JavaVerticleFactory;
 import io.vertx.core.spi.VerticleFactory;
 import io.vertx.reactivex.servicediscovery.ServiceDiscovery;
-import org.flabs.common.service.AbstractServiceVerticle;
 
 public class DiscoServiceFactory extends JavaVerticleFactory {
 

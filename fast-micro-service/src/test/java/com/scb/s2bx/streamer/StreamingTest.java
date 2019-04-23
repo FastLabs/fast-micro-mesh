@@ -1,4 +1,4 @@
-package org.flabs.streamer;
+package com.scb.s2bx.streamer;
 
 import org.junit.jupiter.api.Test;
 

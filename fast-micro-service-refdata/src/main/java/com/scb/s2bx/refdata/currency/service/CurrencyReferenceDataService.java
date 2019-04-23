@@ -1,4 +1,4 @@
-package org.flabs.refdata.currency.service;
+package com.scb.s2bx.refdata.currency.service;
 
 import io.reactivex.Single;
 import io.vertx.core.Vertx;
@@ -9,7 +9,7 @@ import io.vertx.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.ServiceReference;
 import io.vertx.servicediscovery.spi.ServiceType;
 import io.vertx.servicediscovery.types.AbstractServiceReference;
-import org.flabs.refdata.currency.model.CurrencyPair;
+import com.scb.s2bx.refdata.currency.model.CurrencyPair;
 
 import java.util.List;
 

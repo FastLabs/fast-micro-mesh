@@ -1,4 +1,4 @@
-package org.flabs.web;
+package com.scb.s2bx.web;
 
 import com.google.gson.Gson;
 import io.reactivex.Completable;
@@ -15,8 +15,8 @@ import io.vertx.reactivex.ext.web.handler.BodyHandler;
 import io.vertx.reactivex.ext.web.handler.StaticHandler;
 import io.vertx.reactivex.ext.web.handler.sockjs.SockJSHandler;
 import io.vertx.servicediscovery.Record;
-import org.flabs.common.service.AbstractServiceVerticle;
-import org.flabs.refdata.currency.service.CurrencyReferenceDataService;
+import com.scb.s2bx.common.service.AbstractServiceVerticle;
+import com.scb.s2bx.refdata.currency.service.CurrencyReferenceDataService;
 
 import static io.vertx.servicediscovery.Status.*;
 

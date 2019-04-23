@@ -1,10 +1,10 @@
-package org.flabs.service.example;
+package com.scb.s2bx.service.example;
 
 import io.reactivex.Completable;
 import io.vertx.core.json.JsonObject;
 
 import io.vertx.reactivex.servicediscovery.types.MessageSource;
-import org.flabs.common.service.AbstractServiceVerticle;
+import com.scb.s2bx.common.service.AbstractServiceVerticle;
 
 public class Consumer extends AbstractServiceVerticle {
     @Override

@@ -1,9 +1,9 @@
-package org.flabs.refdata.currency.service;
+package com.scb.s2bx.refdata.currency.service;
 
 import io.reactivex.Single;
 import io.vertx.reactivex.core.eventbus.EventBus;
-import org.flabs.common.service.AbstractDataService;
-import org.flabs.refdata.currency.model.CurrencyPair;
+import com.scb.s2bx.common.service.AbstractDataService;
+import com.scb.s2bx.refdata.currency.model.CurrencyPair;
 
 import java.util.List;
 

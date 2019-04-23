@@ -1,5 +1,6 @@
-package org.flabs.service;
+package com.scb.s2bx.service;
 
+import com.scb.s2bx.common.service.DiscoServiceFactory;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.vertx.core.VertxOptions;
@@ -9,7 +10,6 @@ import io.vertx.reactivex.servicediscovery.ServiceDiscovery;
 import io.vertx.servicediscovery.ServiceDiscoveryOptions;
 import io.vertx.spi.cluster.hazelcast.ConfigUtil;
 import io.vertx.spi.cluster.hazelcast.HazelcastClusterManager;
-import org.flabs.common.service.DiscoServiceFactory;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

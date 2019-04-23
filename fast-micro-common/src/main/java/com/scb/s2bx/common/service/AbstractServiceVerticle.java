@@ -1,4 +1,4 @@
-package org.flabs.common.service;
+package com.scb.s2bx.common.service;
 
 import io.reactivex.Completable;
 import io.reactivex.Maybe;

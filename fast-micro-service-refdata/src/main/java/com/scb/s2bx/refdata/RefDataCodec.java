@@ -1,8 +1,8 @@
-package org.flabs.refdata;
+package com.scb.s2bx.refdata;
 
-import org.flabs.common.codec.ValueClassCodec;
-import org.flabs.refdata.currency.model.Currency;
-import org.flabs.refdata.currency.model.CurrencyPair;
+import com.scb.s2bx.refdata.currency.model.Currency;
+import com.scb.s2bx.refdata.currency.model.CurrencyPair;
+import com.scb.s2bx.common.codec.ValueClassCodec;
 
 import java.lang.reflect.Type;
 

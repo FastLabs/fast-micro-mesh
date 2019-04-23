@@ -1,8 +1,8 @@
-package org.flabs.refdata.currency.model;
+package com.scb.s2bx.refdata.currency.model;
 
 import com.google.gson.reflect.TypeToken;
 import lombok.Value;
-import org.flabs.common.model.AbstractDataEntity;
+import com.scb.s2bx.common.model.AbstractDataEntity;
 
 @Value
 public class CurrencyPair extends AbstractDataEntity<CurrencyPair> {

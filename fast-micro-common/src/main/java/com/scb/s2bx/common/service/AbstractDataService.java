@@ -1,11 +1,11 @@
-package org.flabs.common.service;
+package com.scb.s2bx.common.service;
 
 import com.google.gson.reflect.TypeToken;
 import io.reactivex.Single;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.reactivex.core.eventbus.EventBus;
 import io.vertx.reactivex.core.eventbus.Message;
-import org.flabs.common.model.DataEntity;
+import com.scb.s2bx.common.model.DataEntity;
 
 import java.util.List;
 

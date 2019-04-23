@@ -1,4 +1,4 @@
-package org.flabs.service.cluster;
+package com.scb.s2bx.service.cluster;
 
 import io.reactivex.Single;
 

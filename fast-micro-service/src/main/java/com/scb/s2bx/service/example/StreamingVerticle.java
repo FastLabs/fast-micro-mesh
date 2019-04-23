@@ -1,4 +1,4 @@
-package org.flabs.service.example;
+package com.scb.s2bx.service.example;
 
 
 import io.vertx.core.AbstractVerticle;

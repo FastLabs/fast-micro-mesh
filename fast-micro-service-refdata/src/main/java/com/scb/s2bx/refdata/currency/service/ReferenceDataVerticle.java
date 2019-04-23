@@ -1,11 +1,11 @@
-package org.flabs.refdata.currency.service;
+package com.scb.s2bx.refdata.currency.service;
 
 import io.reactivex.Completable;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.servicediscovery.Record;
-import org.flabs.common.service.AbstractServiceVerticle;
-import org.flabs.refdata.RefDataCodec;
-import org.flabs.refdata.currency.model.CurrencyPair;
+import com.scb.s2bx.common.service.AbstractServiceVerticle;
+import com.scb.s2bx.refdata.RefDataCodec;
+import com.scb.s2bx.refdata.currency.model.CurrencyPair;
 
 import java.util.ArrayList;
 import java.util.List;
