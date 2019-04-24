@@ -1,8 +1,8 @@
 package org.flabs.common.service;
 
-import com.google.gson.reflect.TypeToken;
 import io.reactivex.Single;
 import io.vertx.core.eventbus.DeliveryOptions;
+import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.reactivex.core.eventbus.EventBus;
 import io.vertx.reactivex.core.eventbus.Message;
 import org.flabs.common.model.DataEntity;
@@ -16,8 +16,8 @@ public abstract class AbstractDataService {
         this.eventBus = eventBus;
     }
 
-    private DeliveryOptions deliveryOptions(TypeToken t) {
-        return new DeliveryOptions().setCodecName(t.getType().getTypeName());
+    private DeliveryOptions deliveryOptions(MessageCodec<?, ?> t) {
+        return new DeliveryOptions().setCodecName(t.name());
     }
 
     protected <T> Single<T> getEntity(String address) {
@@ -26,7 +26,7 @@ public abstract class AbstractDataService {
     }
 
     protected <Q extends DataEntity, R> Single<R> queryEntity(String address, Q query) {
-        return eventBus.<R>rxSend(address, query, deliveryOptions(query.getTypeToken())).map(Message::body);
+        return eventBus.<R>rxSend(address, query, deliveryOptions(query.getMessageCodec())).map(Message::body);
     }
 
     protected <T extends DataEntity> Single<List<T>> getList(String address) {
@@ -34,7 +34,7 @@ public abstract class AbstractDataService {
     }
 
     protected <Q extends DataEntity, R> Single<List<R>> queryList(String address, Q query) {
-        return eventBus.<List<R>>rxSend(address, query, deliveryOptions(query.getTypeToken())).map(Message::body);
+        return eventBus.<List<R>>rxSend(address, query, deliveryOptions(query.getMessageCodec())).map(Message::body);
     }
 
 

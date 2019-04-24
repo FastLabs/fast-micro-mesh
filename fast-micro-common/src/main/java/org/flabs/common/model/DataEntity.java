@@ -1,7 +1,8 @@
 package org.flabs.common.model;
 
-import com.google.gson.reflect.TypeToken;
+import io.vertx.core.eventbus.MessageCodec;
 
-public interface DataEntity <T> {
-  TypeToken<T> getTypeToken();
+public interface DataEntity {
+
+    MessageCodec<?, ?> getMessageCodec();
 }

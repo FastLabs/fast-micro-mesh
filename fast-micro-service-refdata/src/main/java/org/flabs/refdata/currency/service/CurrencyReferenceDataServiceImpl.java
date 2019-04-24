@@ -21,10 +21,10 @@ public class CurrencyReferenceDataServiceImpl implements CurrencyReferenceDataSe
         }
 
         @Override
-        public Single<List<CurrencyPair>> getCurrencyPairs() {
+        public Single<List<CurrencyPair>> getCurrencyPairs(CurrencyDataQuery dataQuery) {
             System.out.println("Requested currency pairs");
-            return getList(CurrencyReferenceDataService.PROVIDER_ADDRESS);
-
+             return queryList(CurrencyReferenceDataService.PROVIDER_ADDRESS, dataQuery);
+            //return getList(CurrencyReferenceDataService.PROVIDER_ADDRESS);
         }
     }
 

@@ -1,22 +1,18 @@
 package org.flabs.common.model;
 
-import com.google.gson.reflect.TypeToken;
-
-import java.beans.Transient;
+import io.vertx.core.eventbus.MessageCodec;
 
 
-public abstract class AbstractDataEntity<T> implements DataEntity<T> {
+public abstract class AbstractDataEntity implements DataEntity {
 
-    private transient TypeToken<T> typeToken;
+    private transient MessageCodec<?, ?> messageCodec;
 
-    protected AbstractDataEntity(TypeToken<T> typeToken) {
-        this.typeToken = typeToken;
+    protected AbstractDataEntity(MessageCodec<?, ?> codec) {
+        this.messageCodec = codec;
     }
 
     @Override
-    @Transient
-    public TypeToken<T> getTypeToken() {
-        return typeToken;
+    public MessageCodec getMessageCodec() {
+        return messageCodec;
     }
-
 }

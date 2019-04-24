@@ -8,6 +8,9 @@ import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.servicediscovery.ServiceDiscovery;
 import io.vertx.reactivex.servicediscovery.ServiceReference;
 import io.vertx.servicediscovery.Record;
+import io.vertx.servicediscovery.Status;
+
+import java.util.Optional;
 
 public class AbstractServiceVerticle extends AbstractVerticle {
     //TODO: make it private?
@@ -33,13 +36,25 @@ public class AbstractServiceVerticle extends AbstractVerticle {
         return discoSvc.rxUnpublish(serviceId);
     }
 
-    protected Maybe<ServiceReference> getServiceReference(String serviceName) {
+    protected Single<ServiceProvider> getServiceProvider(String serviceName) {
         return discoSvc.rxGetRecord(new JsonObject().put("name", serviceName))
-                .map(record -> discoSvc.getReference(record));
+                .map(record -> {
+                            if (record.getStatus() == Status.UP) {
+                                return ServiceProvider.serviceAvailable(discoSvc.getReference(record));
+                            } else {
+                                System.out.println("Service down " + serviceName + " with status " + record.getStatus());
+                                return ServiceProvider.serviceDown();
+                            }
+                        }
+                )
+                .switchIfEmpty(Single.just(ServiceProvider.serviceDown()));
     }
 
-    public Maybe<Record> getServiceRecord(String serviceName) {
-        return discoSvc.rxGetRecord(r -> serviceName.equalsIgnoreCase(r.getName()));
+    public Single<Record> getServiceRecord(String serviceName) {
+        return discoSvc.rxGetRecord(r -> serviceName.equalsIgnoreCase(r.getName()))
+                .switchIfEmpty(Single.just(new Record()
+                        .setName(serviceName)
+                        .setStatus(Status.DOWN)));
 
     }
 }

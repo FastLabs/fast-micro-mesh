@@ -22,7 +22,7 @@ public interface CurrencyReferenceDataService {
         return new Record().setType(SERVICE_NAME).setName(SERVICE_NAME);
     }
 
-    Single<List<CurrencyPair>> getCurrencyPairs();
+    Single<List<CurrencyPair>> getCurrencyPairs(CurrencyDataQuery query);
 
     interface CurrencyServiceType extends ServiceType {
         @Override

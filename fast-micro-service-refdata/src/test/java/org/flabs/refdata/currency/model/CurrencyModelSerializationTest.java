@@ -2,6 +2,7 @@ package org.flabs.refdata.currency.model;
 
 
 import com.google.gson.Gson;
+import org.flabs.refdata.RefDataCodec;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +16,7 @@ class CurrencyModelSerializationTest {
         final var expected = "{\"code\":\"usd\"}";
         final String usd = gson.toJson(new Currency("usd"));
         assertEquals(expected, usd);
-        assertEquals(new Currency("usd"), gson.fromJson(expected, Currency.typeToken.getType()));
+        assertEquals(new Currency("usd"), gson.fromJson(expected, RefDataCodec.CURRENCY_CODEC.getType()));
     }
 
     @Test

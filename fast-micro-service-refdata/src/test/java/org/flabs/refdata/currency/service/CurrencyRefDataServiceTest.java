@@ -50,7 +50,7 @@ public class CurrencyRefDataServiceTest {
     void testService(Vertx vertx, VertxTestContext testContext) {
         var currencyRefDataService = CurrencyReferenceDataServiceImpl.newServiceInstance(vertx.eventBus());
         vertx.rxDeployVerticle(new ReferenceDataVerticle())
-                .flatMap(vId -> currencyRefDataService.getCurrencyPairs())
+                .flatMap(vId -> currencyRefDataService.getCurrencyPairs(new CurrencyDataQuery("usd")))
                 .subscribe(pairList -> {
                     System.out.println(pairList);
                     assertEquals(1, pairList.size());

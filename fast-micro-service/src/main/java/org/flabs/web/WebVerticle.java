@@ -2,7 +2,6 @@ package org.flabs.web;
 
 import com.google.gson.Gson;
 import io.reactivex.Completable;
-import io.reactivex.Maybe;
 import io.vertx.ext.bridge.PermittedOptions;
 import io.vertx.ext.healthchecks.Status;
 import io.vertx.ext.web.handler.sockjs.BridgeOptions;
@@ -14,9 +13,11 @@ import io.vertx.reactivex.ext.web.Router;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
 import io.vertx.reactivex.ext.web.handler.StaticHandler;
 import io.vertx.reactivex.ext.web.handler.sockjs.SockJSHandler;
-import io.vertx.servicediscovery.Record;
 import org.flabs.common.service.AbstractServiceVerticle;
+import org.flabs.refdata.currency.service.CurrencyDataQuery;
 import org.flabs.refdata.currency.service.CurrencyReferenceDataService;
+
+import java.util.Optional;
 
 import static io.vertx.servicediscovery.Status.*;
 
@@ -38,16 +39,27 @@ public class WebVerticle extends AbstractServiceVerticle {
         apiRouter.route().produces("application/json");
         apiRouter.get("/currencyPair").handler(rc -> {
             //TODO: access direct to service, discovery should be dynamic
-            //TODO: switch when empty or this should be handled at the level of extraction method
-            //TODO: release service reference
-            //TODO: handle service not available
-            getServiceReference(CurrencyReferenceDataService.SERVICE_NAME)
-                    .flatMapObservable(serviceReference -> serviceReference.getAs(CurrencyReferenceDataService.class).getCurrencyPairs().toObservable())
+            //TODO: understand more about release service reference
+            getServiceProvider(CurrencyReferenceDataService.SERVICE_NAME)
+                    .flatMap(serviceProvider -> {
+                        var currencyPairSp = serviceProvider.getAs(CurrencyReferenceDataService.class);
+                        if (currencyPairSp.isPresent()) {
+                            return currencyPairSp.get()
+                                    .getCurrencyPairs(new CurrencyDataQuery("usd"));
+                                    //TODO: understand more about release service reference
+                                    //.doAfterTerminate(serviceProvider::release);
+                        }
+                        throw new RuntimeException("Service not available exception"); //TODO: start thinking about exception hierarchy
+                    })
                     .subscribe(currencies -> {
-                        var response = rc.response();
-                        response.end(gson.toJson(currencies));
-
-                    }, System.out::println, System.err::println);
+                                var response = rc.response();
+                                response.end(gson.toJson(currencies));
+                            }
+                            , err -> {
+                                System.out.println(err);
+                                rc.response().setStatusCode(500).setStatusMessage("Application error " + err.getMessage()).end();
+                            }
+                    );
         });
 
         return apiRouter;
@@ -58,7 +70,7 @@ public class WebVerticle extends AbstractServiceVerticle {
         //TODO: access direct to service discovery should be dynamic
 
         healthChecks.register(CurrencyReferenceDataService.SERVICE_NAME, fut -> {
-            getServiceRecord(CurrencyReferenceDataService.SERVICE_NAME).switchIfEmpty(Maybe.just(new Record().setStatus(DOWN)))
+            getServiceRecord(CurrencyReferenceDataService.SERVICE_NAME)
                     .subscribe(r -> {
                         System.out.println("Extract health for reference data");
                         if (r.getStatus() == UP) {

@@ -3,11 +3,14 @@ package org.flabs.refdata;
 import org.flabs.common.codec.ValueClassCodec;
 import org.flabs.refdata.currency.model.Currency;
 import org.flabs.refdata.currency.model.CurrencyPair;
+import org.flabs.refdata.currency.service.CurrencyDataQuery;
 
 import java.lang.reflect.Type;
 
 public enum RefDataCodec implements ValueClassCodec {
     CURRENCY_CODEC(Currency.class),
+    CURRENCY_DATA_QUERY_CODEC(CurrencyDataQuery.class),
+    LIST_CURRENCY_DATA_QUERY_CODEC(CurrencyDataQuery.class),
     CURRENCY_PAIR_CODEC(CurrencyPair.class),
     LIST_CURRENCY_PAIR_CODEC(CurrencyPair.class) ;
 

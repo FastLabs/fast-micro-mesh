@@ -6,8 +6,8 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.core.Vertx;
 import org.flabs.refdata.RefDataCodec;
 import org.flabs.service.MicroApp;
+import org.flabs.service.api.gateway.EventBridgeVerticle;
 import org.flabs.service.cluster.ClusterMembers;
-import org.flabs.web.WebVerticle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +69,9 @@ public class Main extends MicroApp {
         return vertx.rxDeployVerticle("service:org.flabs.refdata.currency.service.ReferenceDataVerticle", new DeploymentOptions().setHa(true)).toObservable();
     }
 
+    public Observable<String> deployTcpEventBusBridge(Vertx vertx) {
+        return vertx.rxDeployVerticle(new EventBridgeVerticle()).toObservable();
+    }
 
     @Override
     protected List<Function<Vertx, Observable<String>>> getModuleFactories() {
@@ -89,6 +92,7 @@ public class Main extends MicroApp {
                 break;
             case "ref-data-consumer":
                 moduleFactories.add(this::deployWeb);
+                moduleFactories.add(this::deployTcpEventBusBridge);
                 break;
             default:
                 System.out.print("Unknown profile selected");
@@ -106,10 +110,11 @@ public class Main extends MicroApp {
                     System.out.println("Discovery event: " + xx.body());
                 });
 
-        System.out.println("Initializes codecs");
-        vertx.eventBus().registerCodec(RefDataCodec.CURRENCY_CODEC)
-                .registerCodec(RefDataCodec.CURRENCY_PAIR_CODEC)
-                .registerCodec(RefDataCodec.LIST_CURRENCY_PAIR_CODEC);
+        System.out.println("Initializes codecs. Total Number of Codecs: " + RefDataCodec.values().length);
+        var eventBus = vertx.eventBus();
+        for (RefDataCodec c :RefDataCodec.values()) {
+            eventBus.registerCodec(c);
+        }
     }
 
 

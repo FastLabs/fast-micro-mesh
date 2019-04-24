@@ -1,18 +1,15 @@
 package org.flabs.refdata.currency.model;
 
-import com.google.gson.reflect.TypeToken;
-import lombok.Builder;
 import lombok.Value;
 import org.flabs.common.model.AbstractDataEntity;
+import org.flabs.refdata.RefDataCodec;
 
 @Value
-public class Currency extends AbstractDataEntity<Currency> {
-    public static final TypeToken<Currency> typeToken = TypeToken.get(Currency.class);
-
+public class Currency extends AbstractDataEntity {
     private final String code;
 
     public Currency(String code) {
-        super(typeToken);
+        super(RefDataCodec.CURRENCY_CODEC);
         this.code = code;
     }
 }
