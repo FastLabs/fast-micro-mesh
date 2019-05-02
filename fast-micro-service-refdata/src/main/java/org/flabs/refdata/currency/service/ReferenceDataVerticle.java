@@ -88,17 +88,17 @@ public class ReferenceDataVerticle extends AbstractServiceVerticle {
 
 
 
-   /* class ServiceRequest<Q extends DataEntity, T extends DataEntity> {
+   /* class ServiceListRequest<Q extends DataEntity, T extends DataEntity> {
         Message<Q> msg;
         Supplier<Single<T>> supplier;
         Function<Q, Single<T>> funct;
 
-        public ServiceRequest(Message<Q> msg, Supplier<Single<T>> supplier) {
+        public ServiceListRequest(Message<Q> msg, Supplier<Single<T>> supplier) {
             this.msg = msg;
             this.supplier = supplier;
         }
 
-        public ServiceRequest(Message<Q> msg, Function<Q, Single<T>> supplier) {
+        public ServiceListRequest(Message<Q> msg, Function<Q, Single<T>> supplier) {
             this.msg = msg;
             this.funct = supplier;
         }

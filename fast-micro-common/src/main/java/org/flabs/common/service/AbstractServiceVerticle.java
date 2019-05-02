@@ -12,7 +12,7 @@ import io.vertx.servicediscovery.Status;
 
 import java.util.Optional;
 
-public class AbstractServiceVerticle extends AbstractVerticle {
+public class AbstractServiceVerticle extends AbstractVerticle implements ServiceRegistry{
     //TODO: make it private?
     protected ServiceDiscovery discoSvc;
     private String serviceId;
@@ -36,7 +36,7 @@ public class AbstractServiceVerticle extends AbstractVerticle {
         return discoSvc.rxUnpublish(serviceId);
     }
 
-    protected Single<ServiceProvider> getServiceProvider(String serviceName) {
+    public Single<ServiceProvider> getServiceProvider(String serviceName) {
         return discoSvc.rxGetRecord(new JsonObject().put("name", serviceName))
                 .map(record -> {
                             if (record.getStatus() == Status.UP) {
